@@ -3,7 +3,8 @@ import "simple.string.format";
 import quizQuestions from './questions/allQuestions';
 import Quiz from './components/Quiz';
 import Result from './components/Result';
-import logo from './svg/logo.svg';
+import logo from './svg/carpincho.png';
+import carpincho from './svg/carpinchoNerd.png'
 import Button from './components/Button';
 import './App.css';
 
@@ -48,7 +49,7 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1>Math Quiz</h1>
+            <h1>➕➖Math Quiz➖➕</h1>
           </div>
           <h1 className="titleWithEffect"> Empecemos a Jugar!</h1>
           <form onSubmit={this.handleSubmit} noValidate>
@@ -57,13 +58,17 @@ class App extends Component {
             </label>
             <Button onClick={this.handleSubmit} > Ingresar!</Button>
           </form>
+          <img src={carpincho} alt="" className="carpi" />
+          
         </div>
       ),
       'levelSelection': (
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1>Math Quiz</h1>
+            <h1> ➕➖Math Quiz➖➕</h1>
+            
+
           </div>
           <div>
             <h1 className="titleWithEffect"> Elige Tu Nivel</h1>
@@ -80,24 +85,30 @@ class App extends Component {
                 })
               }
           </div>
+          <img src={carpincho} alt="" className="carpi" />
         </div>
       ),
       'quest':(
       <div className="App">
       <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>Math Quiz</h1>
+        <h1>➕➖Math Quiz➖➕</h1>
       </div>
         {this.renderQuiz()}
+        <img src={carpincho} alt="" className="carpi" />
     </div> ),
       'obtainResults': (
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1>Math Quiz</h1>
+            <h1>➕➖Math Quiz➖➕</h1>
           </div>
+          
           <center>{this.renderResult()}</center>
-          <Button onClick={this.backToInit}>Volver A Jugar!</Button> </div>
+          <Button onClick={this.backToInit}>Volver A Jugar!</Button> 
+          <img src={carpincho} alt="" className="carpi" />
+          </div>          
+          
       ),
     }
   }
@@ -236,6 +247,8 @@ class App extends Component {
     this.pages = this.generatePages();
     return this.pages[this.currentPage];
 }
+
+
 }
 
 export default App;
