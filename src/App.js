@@ -7,6 +7,7 @@ import logo from './svg/carpincho.png';
 import carpincho from './svg/carpinchoNerd.png'
 import Button from './components/Button';
 import './App.css';
+import axios from 'axios'
 
 
 const quizzes = [
@@ -28,36 +29,46 @@ class App extends Component {
       answersQuantity: {},
       result: '',
       categorySelected:'',
-      nameUser:'',
+      username:'',
+      points: '',
     };
     
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
     this.handleCategorySelected = this.handleCategorySelected.bind(this);
     this.handleSubmit= this.handleSubmit.bind(this);
     this.backToInit= this.backToInit.bind(this);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
 
     this.currentPage = 'home';
     this.pages = this.generatePages();
     
   
   }
-
-
+  
   generatePages(){
      return {
       'home': (
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
+            {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
             <h1>➕➖Math Quiz➖➕</h1>
           </div>
-          <h1 className="titleWithEffect"> Empecemos a Jugar!</h1>
-          <form onSubmit={this.handleSubmit} noValidate>
+          <h1 className="titleWithEffect"> ¡Empecemos a Jugar!</h1>
+          <form onSubmit={this.handleSubmit}  noValidate>
             <label>
-            <input type="text" placeholder="Nombre" name='name' value={this.state.nameUser} onChange={(e) => {this.setState({nameUser: e.target.value })}} />
+            <input  type="text" 
+                    required 
+                    placeholder="Nombre"
+                    name='name' 
+                    value={this.state.username} 
+                    onChange={this.onChangeUsername}
+                     />
             </label>
-            <Button onClick={this.handleSubmit} > Ingresar!</Button>
+            <input  type="submit" value="Ingresar!" className="button" />
+            <Button onClick={this.handleSubmit} > Ingresar</Button>
           </form>
+         
           <img src={carpincho} alt="" className="carpi" />
           
         </div>
@@ -66,6 +77,7 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
+           {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
             <h1> ➕➖Math Quiz➖➕</h1>
             
 
@@ -92,8 +104,10 @@ class App extends Component {
       <div className="App">
       <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
         <h1>➕➖Math Quiz➖➕</h1>
       </div>
+      
         {this.renderQuiz()}
         <img src={carpincho} alt="" className="carpi" />
     </div> ),
@@ -101,10 +115,12 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
+            {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
             <h1>➕➖Math Quiz➖➕</h1>
           </div>
           
           <center>{this.renderResult()}</center>
+          <center>{this.calculatePoints}</center>
           <Button onClick={this.backToInit}>Volver A Jugar!</Button> 
           <img src={carpincho} alt="" className="carpi" />
           </div>          
@@ -113,9 +129,15 @@ class App extends Component {
     }
   }
 
+  onChangeUsername(e){
+    this.setState({
+      username: e.target.value,
+    });
+  }
 
 
   componentDidMount() {
+
     
     const mixedAnswers = quizQuestions.map(question =>
       this.mixQuestions(question.answers)
@@ -149,6 +171,7 @@ class App extends Component {
       setTimeout(() => this.setNextQuestion(), 500);
     } else {
       setTimeout(() => this.setResults(this.obtainResults()), 500);
+      setTimeout(() => this.setPoints(this.calculatePoints()),500);
     }
     
   }
@@ -189,11 +212,27 @@ class App extends Component {
     });
   }
 
+  calculatePoints(){
+    let correctas =this.state.answersQuantity.correct?this.state.answersQuantity.correct:0;
+    const difficulty = this.state.categorySelected;
+    let multiplier = 0;
+    if (difficulty === 'Intermedio'){
+      multiplier=200;
+    }else if (difficulty === 'Avanzado'){
+      multiplier = 300;
+    }else{
+      multiplier =100;
+    }
+    return ("tu puntaje es: {0}".format(Number(correctas)*Number(multiplier)));
+  }
   obtainResults() {
     const answersQuantity = this.state.answersQuantity;
     return ('Haz logrado responder {0} preguntas correctamente de {1}'.format( answersQuantity["correct"]?answersQuantity["correct"]:0, quizQuestions.length));
   }
 
+  setPoints(points){
+    this.setState({points : points})
+  }
   setResults(result) {
     this.setState({ result: result })
 }
@@ -218,7 +257,7 @@ class App extends Component {
   }
 
   renderResult() {
-    return <Result quizResult={this.state.result} />;
+    return <Result quizResult={this.state.result}  quizPoints={this.state.points}/>;
   }
 
 
@@ -232,21 +271,24 @@ class App extends Component {
       answer: '',
       answersQuantity: {},
       result: '',
-      categorySelected:'',
-      nameUser:''});
+      categorySelected:''});
     this.componentDidMount();
-      
+      /*,      username:''*/
   }
   handleSubmit(event){
-    this.currentPage='levelSelection';
-    this.setState({nameUser: event.target.value});
     event.preventDefault();
-  };
+    this.setState({username: this.state.username});
+    
+    axios.post('http://localhost:5000/users/add',this.state.username)
+    .then(res => console.log(res.data));
+    this.currentPage='levelSelection';
+
+    };
 
   render() {
     this.pages = this.generatePages();
     return this.pages[this.currentPage];
-}
+  }
 
 
 }

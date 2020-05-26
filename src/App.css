@@ -9,6 +9,9 @@
 .App-logo {
   animation: spin infinite 20s linear;
   height: 150px;
+  border-style: solid;
+  border-radius: 50%;
+  border-color: black;
   
 }
 .App-logo:hover{
@@ -18,8 +21,14 @@
 
 .App-header {
   /*background-color: #222;*/
-  background: rgb(242,179,61);
-  background: linear-gradient(180deg, rgba(242,179,61,1) 0%, rgba(242,203,5,1) 35%, rgba(234,220,190,1) 100%);  
+  /* background: #d92b2b; */
+  border-bottom: 5px;
+  border-bottom-style: solid;
+  border-color: black;
+  background: rgb(89,34,3);
+  background: linear-gradient(180deg, rgba(89,34,3,1) 0%, rgba(217,43,43,1) 100%); 
+  /* background: rgb(242,179,61);
+  background: linear-gradient(180deg, rgba(242,179,61,1) 0%, rgba(242,203,5,1) 35%, rgba(234,220,190,1) 100%);   */
   padding: 20px;
   color: white;
   text-align: center;
@@ -86,12 +95,13 @@ h2{
 }
 
 .titleWithEffect:hover{
-  color:#F2B33D;
+  color:#BF4904;
   -webkit-text-stroke:0px;
 }
 
 body {
-  background-color: #eadcbe;
+  background-color: #f28444;
+  /* eadcbe */
 
 }
 
@@ -130,4 +140,10 @@ input {
   border-radius: 10px ;
   border-color:#F2B33D;
   
+}
+
+.containerQuiz{
+
+  background: rgb(89,34,3);
+  background: linear-gradient(180deg, rgba(89,34,3,1) 0%, rgba(217,43,43,1) 100%); 
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function AnswerOption(props) {
   var checkCorrectAnswer = props.answer !== '' && props.answerType === 'correct';
-  var backgroundColor = props.answer === '' ? 'white' :props.answerType === 'correct' ? 'green': 'red';
+  var backgroundColor = props.answer === '' ? '#bee9f6' :props.answerType === 'correct' ? '#63ab5b': '#d92b2b';
   
   return (
     <li className="answerOption" style={{backgroundColor: backgroundColor}}>

@@ -2,6 +2,12 @@
 
 Para correrlo en su dispositivo debe contar con [Node.js](https://nodejs.org/en/download/)
 
+Ejecutar el siguiente comando en la carpeta "backend"
+#### `npm install express cors mongoose dotenv`
+
+Y ejecutar este comando en la carpeta del proyecto
+#### `npm install bootstrap`
+
 Luego para ejecutar el proyecto y visitarlo en su localhost, debe correr los siguientes comandos
 
 #### `npm install`
@@ -15,7 +21,13 @@ _____________________________________________
 
 ### Math Quiz App for primary school children
 
-To run this project you need to have [Node.js](https://nodejs.org/en/download/) installed in your machine 
+To run this project you need to have [Node.js](https://nodejs.org/en/download/) installed in your machine
+
+Runthe following commandline in the "backend" folder
+#### `npm install express cors mongoose dotenv`
+
+And this one in the proyect folder
+#### `npm install bootstrap`
 
 In order to be able to run it, please follow the next commands:
 
