@@ -9,10 +9,7 @@ const userSchema = new Schema ({
         unique: true,
         trim:true,
         minlenght:3
-    },
-    highscore: {type :Number},
-    lastScore: {type :Number},
-
+    }
 },{
     timestamps: true,
 });

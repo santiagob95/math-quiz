@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const highscoreSchema =new Schema({
-    owner: {type: String, required: true },
+    username: {type: String, required: true }, 
+    ownerID: {type: String, required: true, },
     score:{type: Number,  required:true}
 }, {
     timestamps: true,

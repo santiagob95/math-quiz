@@ -1,4 +1,5 @@
-var quizQuestions = [
+var quizQuestions = 
+[
   {
       question: "¿Cuánto es 2+2?",
       answers: [
@@ -88,5 +89,7 @@ var quizQuestions = [
       ]
   }
 ];
+
+
 
 export default quizQuestions;

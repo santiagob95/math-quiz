@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let User = require ('../models/user.model');
+let User = require ('../quizModels/user.model');
 
 router.route('/').get((req,res)=>{
     User.find()
@@ -9,13 +9,12 @@ router.route('/').get((req,res)=>{
 
 router.route('/add').post((req,res) =>{
     const username = req.body.username;
-    const highscore =0;
-    const lastScore =0;
-
-    const newUser = new User ({username,highscore,lastScore});
-
+    
+    const newUser = new User ({username});
     newUser.save()
-        .then(() => res.json('User Added!'))
+        .then(() => {
+            res.json('User Added!');
+        })
         .catch(e => res.status(400).json('Error: '+e));
 });
 
@@ -28,19 +27,11 @@ router.route('/:id').get((req,res) => {
 });
 
 //------------------------------------------------------------------------------------------------------------
-router.route('/getnames').get((req,res) =>{
-    User.find()
-        .then(user => res.json(user.username))
-        .catch (e => res.status(400).json('Error: ',e));
-});
-
-
+//Hay que poner en el body del post el juego en el que estas!!!! (0:quiz, 1:j2, 2:j3)
 router.route('/update/:id').post((req, res) =>{
     User.findById(req.params.id)
     .then(user =>{
-        //user.username = req.body.username;
-        user.highscore = req.body.highscore;
-        user.lastScore = req.body.lastScore;
+        user.highscores[req.body.highscores] = req.body.highscores;
 
         user.save()
             .then(()=> res.json('Highscore updated!'))
@@ -49,3 +40,7 @@ router.route('/update/:id').post((req, res) =>{
     .catch(err => res.status(400).json('Error: '+err));
 });
 module.exports = router;
+
+
+// user.j2Highscore = req.body.j2Highscore;
+//         user.j2LastScore = req.body.j2LastScore;

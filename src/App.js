@@ -3,12 +3,11 @@ import "simple.string.format";
 import quizQuestions from './questions/allQuestions';
 import Quiz from './components/Quiz';
 import Result from './components/Result';
-import logo from './svg/carpincho.png';
 import carpincho from './svg/carpinchoNerd.png'
 import Button from './components/Button';
 import './App.css';
 import axios from 'axios'
-
+import Header from './Header'
 
 const quizzes = [
   { id: 1, title: 'Elemental' },
@@ -16,6 +15,11 @@ const quizzes = [
   { id: 3, title: 'Avanzado' },
 ];
 
+const games =[
+  {id: 1, title: 'Quiz'},
+  {id: 2, title: 'Juego 2'},
+  {id: 3, title: 'Juego 3'},
+]
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,12 +33,15 @@ class App extends Component {
       answersQuantity: {},
       result: '',
       categorySelected:'',
+      gameSelected:'',
+      userId:'',
       username:'',
       points: '',
     };
     
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
     this.handleCategorySelected = this.handleCategorySelected.bind(this);
+    this.handleGameSelected = this.handleGameSelected.bind(this);
     this.handleSubmit= this.handleSubmit.bind(this);
     this.backToInit= this.backToInit.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -49,11 +56,7 @@ class App extends Component {
      return {
       'home': (
         <div className="App">
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
-            <h1>➕➖Math Quiz➖➕</h1>
-          </div>
+         <Header />
           <h1 className="titleWithEffect"> ¡Empecemos a Jugar!</h1>
           <form onSubmit={this.handleSubmit}  noValidate>
             <label>
@@ -65,7 +68,6 @@ class App extends Component {
                     onChange={this.onChangeUsername}
                      />
             </label>
-            <input  type="submit" value="Ingresar!" className="button" />
             <Button onClick={this.handleSubmit} > Ingresar</Button>
           </form>
          
@@ -73,15 +75,29 @@ class App extends Component {
           
         </div>
       ),
+      'gameSelection':(
+        <div className='App'>
+        <Header />
+            <h1 className="titleWithEffect"> Elige Tu Juego</h1>
+              {games.map((item, index) => {
+                  return (
+                    <Button 
+                      key={item.id}
+                      onClick={this.handleGameSelected}
+                      id={item.id}
+                      >
+                      {item.title}
+                    </Button>  
+                  )
+                })
+              }
+          <img src={carpincho} alt="" className="carpi" />
+          </div>
+      ),
+
       'levelSelection': (
         <div className="App">
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-           {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
-            <h1> ➕➖Math Quiz➖➕</h1>
-            
-
-          </div>
+          <Header />
           <div>
             <h1 className="titleWithEffect"> Elige Tu Nivel</h1>
               {quizzes.map((item, index) => {
@@ -100,25 +116,27 @@ class App extends Component {
           <img src={carpincho} alt="" className="carpi" />
         </div>
       ),
+      'juego2':(
+        <div className="App">
+        <Header />
+        <p>Llegaste a juego 2</p>
+        </div>
+      ),
+      'juego3':(
+        <div className="App" >
+          <Header />
+          <p>Llegaste a Juego 3</p>
+        </div>
+      ),
       'quest':(
       <div className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
-        <h1>➕➖Math Quiz➖➕</h1>
-      </div>
-      
+      <Header />      
         {this.renderQuiz()}
         <img src={carpincho} alt="" className="carpi" />
     </div> ),
       'obtainResults': (
         <div className="App">
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            {/*eslint-disable-next-line jsx-a11y/accessible-emoji */}
-            <h1>➕➖Math Quiz➖➕</h1>
-          </div>
-          
+          <Header />          
           <center>{this.renderResult()}</center>
           <center>{this.calculatePoints}</center>
           <Button onClick={this.backToInit}>Volver A Jugar!</Button> 
@@ -181,9 +199,24 @@ class App extends Component {
 //     console.log(this.state.categorySelected));
 // }
 
+  
+handleGameSelected(event) {
+  this.setState({gameSelected: games[event.currentTarget.id-1].title});
+  this.currentPage='levelSelection';
+  
+}
   handleCategorySelected(event) {
     this.setState({categorySelected: quizzes[event.currentTarget.id-1].title});
-    this.currentPage='quest';
+    if(this.state.gameSelected === games[0].title){ //quiz
+      this.currentPage='quest';
+    }else if (this.state.gameSelected === games[1].title) { //Juego 2
+      this.currentPage='juego2';
+    }else if (this.state.gameSelected === games[2].title) { //Juego 3
+      this.currentPage='juego3';
+    }
+    else {
+      this.currentPage ='';
+    }
   }
 
 
@@ -278,10 +311,16 @@ class App extends Component {
   handleSubmit(event){
     event.preventDefault();
     this.setState({username: this.state.username});
+
+    //el prevent default no funca, no se porque. Pero con este if evitamos que avance, pero queda el boton apretado, bug?
+    if(this.state.username !==''){
+        console.log(this.state.username);
+        axios.post('http://localhost:5000/users/add',{
+          username:this.state.username,
+      })
+      .then(this.currentPage='gameSelection');
+    }
     
-    axios.post('http://localhost:5000/users/add',this.state.username)
-    .then(res => console.log(res.data));
-    this.currentPage='levelSelection';
 
     };
 
