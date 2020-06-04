@@ -27,18 +27,19 @@ const quizHighscoreRouter = require('./routes/quizRoutes/highscores');
 const j2QuestionsRouter = require ('./routes/juego2Routes/j2Questions');
 const j2Highscores = require ('./routes/juego2Routes/j2Highscores');
 
-const j3QuestionsRouter = require('./routes/juego3Routes/       ');
-const j3Highscores = require('./routes/juego3Routes/        ');
+const j3QuestionsRouter = require('./routes/juego3Routes/j3Questions');
+const j3Highscores = require('./routes/juego3Routes/j3Highscores');
 
 app.use('/users',usersRouter);
+
 app.use('/qquestions',quizQuestionsRouter);
-app.use('/users',usersRouter);
 app.use('/qhighscores',quizHighscoreRouter);
+
 app.use('/j2questions',j2QuestionsRouter);
 app.use('/j2highscores',j2Highscores);
 
-// app.use('/j3questions');
-// app.use('/j3highscores');
+app.use('/j3questions',j3QuestionsRouter);
+app.use('/j3highscores',j3Highscores);
 
 app.listen(port, () => {
     console.log (`Server is running on port : ${port}`);
