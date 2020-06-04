@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const quizQuestionSchema =new Schema({
+const questionJ2Schema =new Schema({
     question: {type: String, required: true },
-    dif: {type:Number, required:true},
+    dif: {type:Number,required:true},
     answers:  [
         {
             result:{type: Boolean, required: true},
@@ -21,9 +21,8 @@ const quizQuestionSchema =new Schema({
             content: {type: String, required:true},
         }
     ]
-    
 })
 
-const quizQuestion =  mongoose.model('quizQuestion',quizQuestionSchema);
+const QuestionJ2 =  mongoose.model('QuestionJ2',questionJ2Schema);
 
-module.exports = quizQuestion;
+module.exports = QuestionJ2;

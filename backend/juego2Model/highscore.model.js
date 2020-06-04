@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const quizHighscoreSchema =new Schema({
+const J2highscoreSchema =new Schema({
     username: {type: String, required: true }, 
     ownerID: {type: String, required: true, },
     score:{type: Number,  required:true}
@@ -10,6 +10,6 @@ const quizHighscoreSchema =new Schema({
     timestamps: true,
 });
 
-const quizHighscore =  mongoose.model('quizHighscore',quizHighscoreSchema);
+const J2Highscore =  mongoose.model('J2Highscore',J2highscoreSchema);
 
-module.exports = quizHighscore;
+module.exports = J2Highscore;

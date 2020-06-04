@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let Question = require ('../../quizModels/questions.model');
+let Question = require ('../../juego2Model/questions.model');
 
 
 // quizas hay que sacar esta ruta, nadie deberia poder agregar preguntas desde la pagina, no?
@@ -14,10 +14,11 @@ router.route('/add').post((req,res) =>{
     const question = req.body.question;
     const answers  = req.body.answers;
     const dif = req.body.dif;
+    
     const newQuestion = new Question ({
         question,
         dif,
-        answers,
+        answers        
     });
 
     newQuestion.save()
