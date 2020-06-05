@@ -27,8 +27,8 @@ const quizHighscoreRouter = require('./routes/quizRoutes/highscores');
 const addsubstractQuestionsRouter = require ('./routes/addsubstractRoutes/addsubstractQuestions');
 const addsubstractHighscores = require ('./routes/addsubstractRoutes/addsubstractHighscores');
 
-const j3QuestionsRouter = require('./routes/juego3Routes/j3Questions');
-const j3Highscores = require('./routes/juego3Routes/j3Highscores');
+const comparingnumberQuestionsRouter = require('./routes/comparingnumberRoutes/comparingnumberQuestions');
+const j3Highscores = require('./routes/comparingnumberRoutes/comparingnumberHighscores');
 
 app.use('/users',usersRouter);
 
@@ -38,8 +38,8 @@ app.use('/qhighscores',quizHighscoreRouter);
 app.use('/addsubstractquestions',addsubstractQuestionsRouter);
 app.use('/addsubstracthighscores',addsubstractHighscores);
 
-app.use('/j3questions',j3QuestionsRouter);
-app.use('/j3highscores',j3Highscores);
+app.use('/comparingnumberquestions',comparingnumberQuestionsRouter);
+app.use('/comparingnumberhighscores',comparingnumberHighscores);
 
 app.listen(port, () => {
     console.log (`Server is running on port : ${port}`);
