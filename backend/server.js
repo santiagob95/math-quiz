@@ -7,6 +7,7 @@ require ('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+//aplico cors
 app.use(cors());
 app.use(express.json());
 
@@ -28,7 +29,7 @@ const addsubstractQuestionsRouter = require ('./routes/addsubstractRoutes/addsub
 const addsubstractHighscores = require ('./routes/addsubstractRoutes/addsubstractHighscores');
 
 const comparingnumberQuestionsRouter = require('./routes/comparingnumberRoutes/comparingnumberQuestions');
-const j3Highscores = require('./routes/comparingnumberRoutes/comparingnumberHighscores');
+const comparingnumberHighscores = require('./routes/comparingnumberRoutes/comparingnumberHighscores');
 
 app.use('/users',usersRouter);
 
