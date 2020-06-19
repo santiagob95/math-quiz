@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const quizQuestionSchema =new Schema({
     question: {type: String, required: true },
-    dif: {type:Number, required:true},
     answers:  [
         {
             result:{type: Boolean, required: true},

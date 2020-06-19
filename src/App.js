@@ -26,7 +26,7 @@ class App extends Component {
 
     this.state = {
       counter: 0,
-      questionId: 1,
+      questionNumber: 1,
       question: '',
       answerOptions: [],
       answer: '',
@@ -119,7 +119,7 @@ class App extends Component {
       'juego2':(
         <div className="App">
         <Header />
-        <p>Llegaste a juego 2</p>
+        <p>Llegaste a juego 2vnhtgbthbn</p>
         </div>
       ),
       'juego3':(
@@ -130,7 +130,8 @@ class App extends Component {
       ),
       'quest':(
       <div className="App">
-      <Header />      
+      <Header />
+      {this.buscaQuestions()}
         {this.renderQuiz()}
         <img src={carpincho} alt="" className="carpi" />
     </div> ),
@@ -145,6 +146,15 @@ class App extends Component {
           
       ),
     }
+  }
+
+  buscaQuestions(){
+    axios.get('http://localhost:5000/qquestions/')
+      .then(response => {
+        if(response.data.length>0){
+            console.log(response.data.map(res => res.answers[0].content))
+        }
+      })
   }
 
   onChangeUsername(e){
@@ -185,7 +195,7 @@ class App extends Component {
 
   handleAnswerSelected(event) {
     this.setUserAnswer(event.currentTarget.value);
-    if (this.state.questionId < quizQuestions.length) {
+    if (this.state.questionNumber < quizQuestions.length) {
       setTimeout(() => this.setNextQuestion(), 500);
     } else {
       setTimeout(() => this.setResults(this.obtainResults()), 500);
@@ -235,10 +245,10 @@ handleGameSelected(event) {
 
   setNextQuestion() {
     const counter = this.state.counter + 1;
-    const questionId = this.state.questionId + 1;
+    const questionNumber = this.state.questionNumber + 1;
     this.setState({
       counter: counter,
-      questionId: questionId,
+      questionNumber: questionNumber,
       question: quizQuestions[counter].question,
       answerOptions: quizQuestions[counter].answers,
       answer: '',
@@ -280,7 +290,7 @@ handleGameSelected(event) {
       <Quiz
         answer={this.state.answer}
         answerOptions={this.state.answerOptions}
-        questionId={this.state.questionId}
+        questionNumber={this.state.questionNumber}
         question={this.state.question}
         questionTotal={quizQuestions.length}
         onAnswerSelected={this.handleAnswerSelected}
@@ -298,7 +308,7 @@ handleGameSelected(event) {
     this.currentPage='levelSelection';
     event.preventDefault();
     this.setState({counter: 0,
-      questionId: 1,
+      questionNumber: 1,
       question: '',
       answerOptions: [],
       answer: '',
@@ -313,15 +323,16 @@ handleGameSelected(event) {
     this.setState({username: this.state.username});
 
     //el prevent default no funca, no se porque. Pero con este if evitamos que avance, pero queda el boton apretado, bug?
-    if(this.state.username !==''){
-        console.log(this.state.username);
-        axios.post('http://localhost:5000/users/add',{
-          username:this.state.username,
-      })
-      .then(this.currentPage='gameSelection');
-    }
-    
+     if(this.state.username !==''){
 
+        console.log(this.state.username);
+        axios.post('http://localhost:5000/users/add',{username:this.state.username})
+        .then(res => console.log(res.data));
+
+    }
+   //BUG: Avanza aunque le de error de usuario ya existente-----------------------------------------------
+    
+    this.currentPage='gameSelection';
     };
 
   render() {

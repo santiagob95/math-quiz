@@ -2,7 +2,6 @@ const router = require('express').Router();
 let Question = require ('../../quizModels/questions.model');
 
 
-// quizas hay que sacar esta ruta, nadie deberia poder agregar preguntas desde la pagina, no?
 
 router.route('/').get((req,res)=>{
     Question.find()
@@ -10,13 +9,14 @@ router.route('/').get((req,res)=>{
         .catch (e => res.status(400).json('Error: ',e));
 });
 
+
+// quizas hay que sacar esta ruta, nadie deberia poder agregar preguntas desde la pagina, no?
+
 router.route('/add').post((req,res) =>{
     const question = req.body.question;
     const answers  = req.body.answers;
-    const dif = req.body.dif;
     const newQuestion = new Question ({
         question,
-        dif,
         answers,
     });
 
