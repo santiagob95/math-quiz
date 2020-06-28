@@ -10,7 +10,7 @@ function Quiz(props) {
       <AnswerOption
         key={key.content}
         answerContent={key.content}
-        answerType={key.result}
+        answerType={key.result ? 'correct':'incorrect'}
         answer={props.answer}
         questionId={props.questionId}
         onAnswerSelected={props.onAnswerSelected}
@@ -24,7 +24,7 @@ function Quiz(props) {
       component="div"
     >
       <div key={props.questionId}>
-        <QuestionCount counter={props.questionId} total={props.questionTotal} />
+        <QuestionCount counter={props.questionNumber} total={props.questionTotal} />
         <Question content={props.question} />
         <ul className="answerOptions">
           {props.answerOptions.map(renderAnswerOptions)}

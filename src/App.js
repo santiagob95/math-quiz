@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "simple.string.format";
-import quizQuestions from './questions/allQuestions';
 import Quiz from './components/Quiz';
 import Result from './components/Result';
 import carpincho from './svg/carpinchoNerd.png'
@@ -37,6 +36,7 @@ class App extends Component {
       userId:'',
       username:'',
       points: '',
+      quizQuestions: '',
     };
     
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -131,13 +131,12 @@ class App extends Component {
       'quest':(
       <div className="App">
       <Header />
-      {this.buscaQuestions()}
         {this.renderQuiz()}
         <img src={carpincho} alt="" className="carpi" />
     </div> ),
       'obtainResults': (
         <div className="App">
-          <Header />          
+          <Header />         
           <center>{this.renderResult()}</center>
           <center>{this.calculatePoints}</center>
           <Button onClick={this.backToInit}>Volver A Jugar!</Button> 
@@ -148,15 +147,6 @@ class App extends Component {
     }
   }
 
-  buscaQuestions(){
-    axios.get('http://localhost:5000/qquestions/')
-      .then(response => {
-        if(response.data.length>0){
-            console.log(response.data.map(res => res.answers[0].content))
-        }
-      })
-  }
-
   onChangeUsername(e){
     this.setState({
       username: e.target.value,
@@ -165,16 +155,26 @@ class App extends Component {
 
 
   componentDidMount() {
+    axios.get('http://localhost:5000/qquestions/')
+      .then(response => {
+        const mixedAnswers = response.data.map(question =>
+          this.mixQuestions(question.answers))
+        this.setState({
+          quizQuestions:response.data,
+          question:response.data[0].question,
+          answerOptions:mixedAnswers[0]
+        });
+      })
 
-    
-    const mixedAnswers = quizQuestions.map(question =>
-      this.mixQuestions(question.answers)
-    );
-    this.setState({
-      question: quizQuestions[0].question,
-      answerOptions: mixedAnswers[0]
-    });
-  }
+    //   const mixedAnswers = quizQuestions.map(question =>
+    //     this.mixQuestions(question.answers)
+    //   );
+    //   this.setState({
+    //     question: quizQuestions[0].question,
+    //     answerOptions: mixedAnswers[0]
+    //   });
+    }
+   
 
   mixQuestions(array) {
     var currentIndex = array.length,
@@ -195,7 +195,7 @@ class App extends Component {
 
   handleAnswerSelected(event) {
     this.setUserAnswer(event.currentTarget.value);
-    if (this.state.questionNumber < quizQuestions.length) {
+    if (this.state.questionNumber < this.state.quizQuestions.length) {
       setTimeout(() => this.setNextQuestion(), 500);
     } else {
       setTimeout(() => this.setResults(this.obtainResults()), 500);
@@ -249,12 +249,12 @@ handleGameSelected(event) {
     this.setState({
       counter: counter,
       questionNumber: questionNumber,
-      question: quizQuestions[counter].question,
-      answerOptions: quizQuestions[counter].answers,
+      question: this.state.quizQuestions[counter].question,
+      answerOptions: this.state.quizQuestions[counter].answers,
       answer: '',
     });
   }
-
+// ---------------------------------------------------------------------------------------------------------------
   calculatePoints(){
     let correctas =this.state.answersQuantity.correct?this.state.answersQuantity.correct:0;
     const difficulty = this.state.categorySelected;
@@ -270,7 +270,7 @@ handleGameSelected(event) {
   }
   obtainResults() {
     const answersQuantity = this.state.answersQuantity;
-    return ('Haz logrado responder {0} preguntas correctamente de {1}'.format( answersQuantity["correct"]?answersQuantity["correct"]:0, quizQuestions.length));
+    return ('Haz logrado responder {0} preguntas correctamente de {1}'.format( answersQuantity["correct"]?answersQuantity["correct"]:0, this.state.quizQuestions.length));
   }
 
   setPoints(points){
@@ -292,7 +292,7 @@ handleGameSelected(event) {
         answerOptions={this.state.answerOptions}
         questionNumber={this.state.questionNumber}
         question={this.state.question}
-        questionTotal={quizQuestions.length}
+        questionTotal={this.state.quizQuestions.length}
         onAnswerSelected={this.handleAnswerSelected}
       />
       </div>
