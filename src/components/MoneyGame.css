@@ -1,0 +1,13 @@
+.botonHolder{
+    display: grid;
+    float: left;
+    grid-template-columns: repeat(3, 10fr);
+    grid-gap: 5px;
+    grid-auto-rows: minmax(100px, auto);
+    width:40%;
+    margin: auto;
+    
+}
+.button#Money{
+    width: 80%
+}

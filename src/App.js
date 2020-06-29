@@ -7,6 +7,7 @@ import Button from './components/Button';
 import './App.css';
 import axios from 'axios'
 import Header from './Header'
+import MoneyGame from './components/MoneyGame';
 
 const quizzes = [
   { id: 1, title: 'Elemental' },
@@ -48,9 +49,7 @@ class App extends Component {
 
     this.currentPage = 'home';
     this.pages = this.generatePages();
-    
-  
-  }
+    }
   
   generatePages(){
      return {
@@ -119,7 +118,7 @@ class App extends Component {
       'juego2':(
         <div className="App">
         <Header />
-        <p>Llegaste a juego 2vnhtgbthbn</p>
+        <MoneyGame/>
         </div>
       ),
       'juego3':(
@@ -209,7 +208,6 @@ class App extends Component {
 //     console.log(this.state.categorySelected));
 // }
 
-  
 handleGameSelected(event) {
   this.setState({gameSelected: games[event.currentTarget.id-1].title});
   this.currentPage='levelSelection';
