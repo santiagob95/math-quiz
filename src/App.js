@@ -36,6 +36,7 @@ class App extends Component {
       gameSelected:'',
       userId:'',
       username:'',
+      pass:'',
       points: '',
       quizQuestions: '',
     };
@@ -46,6 +47,7 @@ class App extends Component {
     this.handleSubmit= this.handleSubmit.bind(this);
     this.backToInit= this.backToInit.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangePass = this.onChangePass.bind(this);
 
     this.currentPage = 'home';
     this.pages = this.generatePages();
@@ -65,6 +67,15 @@ class App extends Component {
                     name='name' 
                     value={this.state.username} 
                     onChange={this.onChangeUsername}
+                     />
+            </label>
+            <label>
+            <input  type="text" 
+                    required 
+                    placeholder="Contraseña"
+                    name='pass' 
+                    value={this.state.pass} 
+                    onChange={this.onChangePass}
                      />
             </label>
             <Button onClick={this.handleSubmit} > Ingresar</Button>
@@ -151,6 +162,12 @@ class App extends Component {
   onChangeUsername(e){
     this.setState({
       username: e.target.value,
+    });
+  }
+
+  onChangePass(e){
+    this.setState({
+      pass: e.target.value,
     });
   }
 
@@ -321,18 +338,40 @@ handleGameSelected(event) {
   handleSubmit(event){
     event.preventDefault();
     this.setState({username: this.state.username});
+    this.setState({pass: this.state.pass});
+
+    let config = {
+      headers: {
+        'Access-Control-Allow-Origin':'http://localhost:3000',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'
+      }
+    }
 
     //el prevent default no funca, no se porque. Pero con este if evitamos que avance, pero queda el boton apretado, bug?
      if(this.state.username !==''){
 
         console.log(this.state.username);
-        axios.post('http://localhost:5000/users/add',{username:this.state.username})
-        .then(res => console.log(res.data));
+        console.log(this.state.pass);
 
+        axios.post(
+          'http://localhost:5000/users/add',
+          {
+              username:this.state.username,
+              //password: this.state.password,
+          },
+          {config}
+          ).then(response => {
+              console.log("Success ========>", response);
+              this.currentPage='gameSelection'
+          })
+          .catch(error => {
+              console.log("Error ========>", error);
+          }
+      )
     }
    //BUG: Avanza aunque le de error de usuario ya existente-----------------------------------------------
-    
-    this.currentPage='gameSelection';
+  //this.currentPage='gameSelection';
     };
 
   render() {
