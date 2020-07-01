@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from './Button'
+import Button from './Button'   
 
 import './MoneyGame.css'
 
@@ -10,6 +10,7 @@ import diez from '../svg/diez.png'
 import veinte from '../svg/veinte.png'
 import cincuenta from '../svg/cincuenta.png'
 import cien from '../svg/cien.png'
+import HighscoreTable from './HighscoreTable.js'
 
 const billetes =[
     {id:0,value:1, img:uno},
@@ -21,15 +22,18 @@ const billetes =[
     {id:6,value: 100, img:cien}
 ]
 const max =100, min =0;
-
+const maxcount =3;
 
 export default class MoneyGame extends React.Component {
         constructor(props) {
           super(props);
+        //const dif= props.dif;
           this.state = {
+              counter:0,
               numero: Math.floor(Math.random() * (max - min) - min),
               sumaBilletes:0,
               cant:[0,0,0,0,0,0,0],
+              ResultadoPressed:false,
           }
           this.handleBilleteSelected = this.handleBilleteSelected.bind(this);
           this.handleNumeroSuperado = this.handleNumeroSuperado.bind(this);
@@ -38,19 +42,25 @@ export default class MoneyGame extends React.Component {
         };
         render(){
             return (
-                <div >
-                    <h1> Tu dinero a matchear es: ${this.state.numero}</h1>
-                    <div className='botonHolder' id='block1'>
+                <div className="Contenedor">
+                {this.state.counter<maxcount &&
+                <div>
+                    <div className='button' id='titulo'>
+                    <p>Queremos comprar una bolsa de caramelos, pero cuesta ${this.state.numero}
+                        ¿Cuántos billetes crees que necesitaremos?</p>
+                    </div>
+                    <div className='botonHolder'>
                     {billetes.map((item, index) => {
                         return (
                             <Button 
+                            class='grid-item'
                             id='Money'
                             key={item.value}
                             value={item.value}
                             onClick={(e) => this.handleBilleteSelected(item)}
                             >
                             <img alt='' src={item.img} width='50%' />
-                            x{this.state.cant[item.id]||'0'}
+                            {" x"+this.state.cant[item.id]||'0'}
                             </Button>  
                             
                         )
@@ -59,9 +69,31 @@ export default class MoneyGame extends React.Component {
                     <Button id='Money' onClick={(e)=> this.handleSubmitBilletes()}> Listo!</Button>
                     <Button id='Money' onClick={(e)=>this.resetSuma()}>Borrar</Button>
                     </div>
+                    <Button onClick={(e) =>{this.handleHighscore()}}>Ver Highscores</Button>
+                    </div>}
                     
+                <div>
+                {this.state.resultadoPressed &&
+                 <HighscoreTable/>}
+                
+                </div>
+                
+                
                 </div>
         )
+    }
+    handleHighscore(){
+        if (this.state.ResultadoPressed){
+            this.setState({
+                resultadoPressed:false,
+                })
+            }
+        else{
+            this.setState({
+                resultadoPressed:true,
+                })
+        }
+            
     }
     resetSuma(){
         console.log("borrado")
@@ -71,6 +103,14 @@ export default class MoneyGame extends React.Component {
             })   
     }
 
+    backToInit(){
+        this.setState({
+            numero: Math.floor(Math.random() * (max - min) - min),
+            sumaBilletes:0,
+            cant:[0,0,0,0,0,0,0],
+            counter:this.state.counter + 1
+        })
+    }
 
     handleBilleteSelected(props){
             let nuevaCant = this.state.cant; 
@@ -91,10 +131,12 @@ export default class MoneyGame extends React.Component {
         }
         else if (this.state.numero < this.state.sumaBilletes){
             this.resetSuma();
+            this.setState({counter: this.state.counter + 1})
             alert("Te pasaste :( \n Intentalo otra vez!")
         }
         else{
             alert("Te quedaste corto ;)")
+            this.setState({counter: this.state.counter + 1})
         }
         
     }
@@ -102,12 +144,6 @@ export default class MoneyGame extends React.Component {
         alert("superaste el numero! :(");
         this.backToInit();
     }
-    backToInit(){
-        this.setState({
-            numero: Math.floor(Math.random() * (max - min) - min),
-            sumaBilletes:0,
-            cant:[0,0,0,0,0,0,0],
-        })
-    }
+    
 }
  

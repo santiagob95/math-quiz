@@ -10,7 +10,7 @@ import Header from './Header'
 import MoneyGame from './components/MoneyGame';
 
 const quizzes = [
-  { id: 1, title: 'Elemental' },
+  { id: 1, title: 'Facil' },
   { id: 2, title: 'Intermedio' },
   { id: 3, title: 'Avanzado' },
 ];
@@ -118,7 +118,9 @@ class App extends Component {
       'juego2':(
         <div className="App">
         <Header />
-        <MoneyGame/>
+        <MoneyGame
+          dif= {this.state.categorySelected}
+        />
         </div>
       ),
       'juego3':(
