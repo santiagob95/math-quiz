@@ -320,13 +320,34 @@ handleGameSelected(event) {
     event.preventDefault();
     this.setState({username: this.state.username});
 
+    let config = {
+      headers: {
+        'Access-Control-Allow-Origin':'http://localhost:3000',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'
+      }
+    }
+
     //el prevent default no funca, no se porque. Pero con este if evitamos que avance, pero queda el boton apretado, bug?
      if(this.state.username !==''){
 
         console.log(this.state.username);
-        axios.post('http://localhost:5000/users/add',{username:this.state.username})
-        .then(res => console.log(res.data));
 
+        axios.post(
+          'http://localhost:5000/users/add',
+          {
+              username:this.state.username,
+              //password: this.state.password,
+          },
+          {config}
+          ).then(response => {
+              console.log("Success ========>", response);
+              this.currentPage='gameSelection'
+          })
+          .catch(error => {
+              console.log("Error ========>", error);
+          }
+      )
     }
    //BUG: Avanza aunque le de error de usuario ya existente-----------------------------------------------
     
