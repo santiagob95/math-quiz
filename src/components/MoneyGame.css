@@ -5,12 +5,17 @@
     grid-template-columns: repeat(3, 10fr);
     grid-gap: 5px;
     grid-auto-rows: minmax(100px, auto);
-    width:40%;
-    margin: auto;
-    
+    margin-left: 5%;
+    float: left;    
 }
-.button#Money{
-    width: 80%
+#uno{
+    position: relative;
+    left:5%;
+}
+#Money{
+    width: 150px;
+    max-width: 55%;
+
 }
 #block1,#block2{
     display: inline-block;

@@ -10,8 +10,8 @@ import diez from '../svg/diez.png'
 import veinte from '../svg/veinte.png'
 import cincuenta from '../svg/cincuenta.png'
 import cien from '../svg/cien.png'
-import HighscoreTable from './HighscoreTable.js'
 
+import PopUp from './PopUp'
 const billetes =[
     {id:0,value:1, img:uno},
     {id:1,value:2, img:dos},
@@ -46,55 +46,45 @@ export default class MoneyGame extends React.Component {
                 {this.state.counter<maxcount &&
                 <div>
                     <div className='button' id='titulo'>
-                    <p>Queremos comprar una bolsa de caramelos, pero cuesta ${this.state.numero}
-                        ¿Cuántos billetes crees que necesitaremos?</p>
+                        <p>Queremos comprar una bolsa de caramelos, pero cuesta ${this.state.numero}
+                            ¿Cuántos billetes crees que necesitaremos?</p>
                     </div>
-                    <div className='botonHolder'>
-                    {billetes.map((item, index) => {
-                        return (
-                            <Button 
-                            class='grid-item'
-                            id='Money'
-                            key={item.value}
-                            value={item.value}
-                            onClick={(e) => this.handleBilleteSelected(item)}
-                            >
-                            <img alt='' src={item.img} width='50%' />
-                            {" x"+this.state.cant[item.id]||'0'}
-                            </Button>  
+                    <div className='BotonesYHighscore'>
+                        <div className='botonHolder'>
+                            {billetes.map((item, index) => {
+                                return (
+                                    <Button 
+                                    class='grid-item'
+                                    id='Money'
+                                    key={item.value}
+                                    value={item.value}
+                                    onClick={(e) => this.handleBilleteSelected(item)}
+                                    >
+                                    <img alt='' src={item.img} width='50%' />
+                                    {" x"+this.state.cant[item.id]||'0'}
+                                    </Button>  
+                                    
+                                )
+                                })
+                            }
+                            <Button id='Money' onClick={(e)=> this.handleSubmitBilletes()}> Listo!</Button>
+                            <Button id='Money' onClick={(e)=>this.resetSuma()}>Borrar</Button>
+                            </div>
+                            <PopUp id='uno'/>
                             
-                        )
-                        })
-                    }
-                    <Button id='Money' onClick={(e)=> this.handleSubmitBilletes()}> Listo!</Button>
-                    <Button id='Money' onClick={(e)=>this.resetSuma()}>Borrar</Button>
-                    </div>
-                    <Button onClick={(e) =>{this.handleHighscore()}}>Ver Highscores</Button>
+                            {this.state.ResultadoPressed &&
+                            <div>
+                                
+                            </div>}
+                   </div>
+                    {/* {this.state.resultadoPressed &&
+                            <HighscoreTable/>} */}
                     </div>}
-                    
-                <div>
-                {this.state.resultadoPressed &&
-                 <HighscoreTable/>}
-                
                 </div>
-                
-                
-                </div>
-        )
+        ) 
+
     }
-    handleHighscore(){
-        if (this.state.ResultadoPressed){
-            this.setState({
-                resultadoPressed:false,
-                })
-            }
-        else{
-            this.setState({
-                resultadoPressed:true,
-                })
-        }
-            
-    }
+   
     resetSuma(){
         console.log("borrado")
         this.setState({

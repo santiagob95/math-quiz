@@ -230,7 +230,6 @@ class App extends Component {
 handleGameSelected(event) {
   this.setState({gameSelected: games[event.currentTarget.id-1].title});
   this.currentPage='levelSelection';
-  
 }
   handleCategorySelected(event) {
     this.setState({categorySelected: quizzes[event.currentTarget.id-1].title});

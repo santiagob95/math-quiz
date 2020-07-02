@@ -11,7 +11,7 @@ router.route('/').get((req,res)=>{
 //Crea un highscore para el usuario que le pases, necesita su nombre, id y puntos que hizo
 router.route('/add').post((req,res) =>{
     const username = req.body.username;
-    const ownerID = req.body.ownerID;
+    const ownerID = req.body.ownerID || 0;
     const score =req.body.score;
 
     const newHighscore = new Highscore ({ownerID,score,username});

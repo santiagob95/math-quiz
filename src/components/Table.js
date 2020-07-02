@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 const useStyles = makeStyles({
   table: {
     color: 'blue',
-    maxWidth:'20%',
+    maxWidth:'100%',
   },
 });
 
@@ -31,9 +31,9 @@ const useStyles = makeStyles({
 export default function SimpleTable(props) {
   const classes = useStyles();
   const datos = props.datos.sort((a, b) => Number(b.score) - Number(a.score));
-  console.log(datos);
+  console.table(datos);
   return (
-    <TableContainer className={classes.table} align='center' component={Paper}>
+    <TableContainer className={classes.table} align='center' id='button' component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -44,7 +44,7 @@ export default function SimpleTable(props) {
         </TableHead>
         <TableBody>
           {datos.map((item,index) => (
-            <TableRow key={item.owner}>
+            <TableRow key={index.Number}>
               {/* <TableCell align="center">{item.index}</TableCell> */}
               <TableCell align="center">{item.owner}</TableCell>
               <TableCell align="center">{item.score}</TableCell>
