@@ -22,7 +22,13 @@ const billetes =[
     {id:6,value: 100, img:cien}
 ]
 const max =100, min =0;
-const maxcount =3;
+
+const maxcount =4;
+
+// Dificultades: 
+//     Facil: Muestra la suma de billetes
+//     Intermedio: No muestra la suma de billetes y no penaliza errores
+//     Avanzado: No muestra la suma de billetes y hay penalización por respuestas incorrectas
 
 export default class MoneyGame extends React.Component {
         constructor(props) {
@@ -33,10 +39,12 @@ export default class MoneyGame extends React.Component {
               numero: Math.floor(Math.random() * (max - min) - min),
               sumaBilletes:0,
               cant:[0,0,0,0,0,0,0],
-              ResultadoPressed:false,
+              correctasCounter:0,
+              reintentos:0,
           }
           this.handleBilleteSelected = this.handleBilleteSelected.bind(this);
           this.handleNumeroSuperado = this.handleNumeroSuperado.bind(this);
+          this.calcularPuntos = this.calcularPuntos.bind(this)
           this.backToInit = this.backToInit.bind(this);
           
         };
@@ -65,26 +73,36 @@ export default class MoneyGame extends React.Component {
                                     </Button>  
                                     
                                 )
-                                })
-                            }
-                            <Button id='Money' onClick={(e)=> this.handleSubmitBilletes()}> Listo!</Button>
+                                })}
+                            <Button id='Money' onClick={(e)=> this.handleSubmitBilletes(this.props)}> Listo!</Button>
                             <Button id='Money' onClick={(e)=>this.resetSuma()}>Borrar</Button>
-                            </div>
-                            <PopUp id='uno'/>
-                            
-                            {this.state.ResultadoPressed &&
+                        </div>
+                        <div align='center'>
+                        <PopUp id='uno'/>
+                        {this.props.dif==='Facil' &&
+                        <div className='button'>LLevas ${this.state.sumaBilletes}</div>}    
+                        </div>
+                    </div>
+                </div>}
+                {this.state.counter>=maxcount &&
                             <div>
-                                
+                                <div className='button'>Tenes {this.calcularPuntos(this.props.dif)} puntos!
+                                </div>
+                                <Button id='Money' onClick={(e)=> this.resetGame()}>Volver a jugar</Button>
+
                             </div>}
-                   </div>
-                    {/* {this.state.resultadoPressed &&
-                            <HighscoreTable/>} */}
-                    </div>}
-                </div>
-        ) 
+        </div>)
 
     }
-   
+    calcularPuntos(props){
+        let puntos = (this.state.correctasCounter - this.state.reintentos*0.25)*100;
+        if(props==='Facil')
+            puntos= puntos*0.80;
+        else if(props ==='Avanzado')
+            puntos=puntos*1.30;
+        
+        return (puntos);
+    }
     resetSuma(){
         console.log("borrado")
         this.setState({
@@ -92,7 +110,13 @@ export default class MoneyGame extends React.Component {
             cant:[0,0,0,0,0,0,0],
             })   
     }
-
+    resetGame(){
+        this.backToInit();
+        this.setState({
+            counter:0,
+            reintentos:0,
+        })
+    }
     backToInit(){
         this.setState({
             numero: Math.floor(Math.random() * (max - min) - min),
@@ -113,20 +137,39 @@ export default class MoneyGame extends React.Component {
         }        
 
     
-    handleSubmitBilletes(){
+    handleSubmitBilletes(props){
         console.log("listo!")
         if (this.state.numero === this.state.sumaBilletes){
             this.backToInit();
-            alert("GANASTE!");         
+            this.setState({
+                correctasCounter: this.state.correctasCounter +1})
+            alert("MUY BIEN! Adivinaste :D");         
         }
         else if (this.state.numero < this.state.sumaBilletes){
-            this.resetSuma();
-            this.setState({counter: this.state.counter + 1})
-            alert("Te pasaste :( \n Intentalo otra vez!")
+            if(props.dif==='Avanzado'){
+                alert('Al piste perdiste. No es correcto ')
+                this.setState({reintentos: this.state.reintentos + 1.25})
+                this.backToInit();
+            }
+            else{
+                this.resetSuma();
+                this.setState({reintentos: this.state.reintentos + 1})
+                alert("Te pasaste :( \n Intentalo otra vez!")
+            }
         }
         else{
-            alert("Te quedaste corto ;)")
-            this.setState({counter: this.state.counter + 1})
+            if(props.dif==='Avanzado'){
+                alert('Al piste perdiste. No es correcto ')
+                this.setState({reintentos: this.state.reintentos + 1.25})
+                this.backToInit();
+            }
+            else{
+                alert("Te quedaste corto ;)")
+                this.resetSuma();
+                this.setState({
+                    reintentos:this.state.reintentos + 1
+                })
+            }
         }
         
     }
