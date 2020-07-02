@@ -9,6 +9,8 @@ import axios from 'axios'
 import Header from './Header'
 import MoneyGame from './components/MoneyGame';
 
+//import {loginGrupos} from './controller/gameController.js';
+
 const quizzes = [
   { id: 1, title: 'Facil' },
   { id: 2, title: 'Intermedio' },
@@ -70,7 +72,7 @@ class App extends Component {
                      />
             </label>
             <label>
-            <input  type="text" 
+            <input  type="password" 
                     required 
                     placeholder="Contraseña"
                     name='pass' 
@@ -362,15 +364,14 @@ handleGameSelected(event) {
           {config}
           ).then(response => {
               console.log("Success ========>", response);
-              this.currentPage='gameSelection'
+              this.currentPage='gameSelection';
           })
           .catch(error => {
               console.log("Error ========>", error);
-          }
-      )
+          })
+
     }
-   //BUG: Avanza aunque le de error de usuario ya existente-----------------------------------------------
-  //this.currentPage='gameSelection';
+   
     };
 
   render() {
