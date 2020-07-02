@@ -46,7 +46,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs() {
+export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -55,7 +55,7 @@ export default function CustomizedDialogs() {
   const handleClose = () => {
     setOpen(false);
   };
-
+ 
   return (
     <div>
       <Button className='button' class='button' onClick={handleClickOpen}>

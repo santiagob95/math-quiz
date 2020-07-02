@@ -46,6 +46,7 @@ export default class HighscoreTable extends React.Component{
                 contenido:aux
             })
         })
+        
 
     }
 
