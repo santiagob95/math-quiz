@@ -2,9 +2,9 @@ const router = require('express').Router();
 let Question = require ('../../quizModels/questions.model');
 
 
-
-router.route('/').get((req,res)=>{
-    Question.find()
+//obtengo preguntas de dificultad pasada por parametro
+router.route('/:dificultad').get((req,res)=>{
+    Question.find({dif: Number(req.params.dificultad)})
         .then(questions => res.json(questions))
         .catch (e => res.status(400).json('Error: ',e));
 });
@@ -15,8 +15,10 @@ router.route('/').get((req,res)=>{
 router.route('/add').post((req,res) =>{
     const question = req.body.question;
     const answers  = req.body.answers;
+    const dif = req.body.dif;
     const newQuestion = new Question ({
         question,
+        dif,
         answers,
     });
 

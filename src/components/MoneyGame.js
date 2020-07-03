@@ -2,7 +2,7 @@ import React from 'react'
 import Button from './Button'   
 
 import './MoneyGame.css'
-
+import axios from 'axios'
 import uno from '../svg/uno.png'
 import dos from '../svg/dos.png'
 import cinco from '../svg/cinco.png'
@@ -23,7 +23,7 @@ const billetes =[
 ]
 const max =100, min =0;
 
-const maxcount =4;
+const maxcount =1;
 
 // Dificultades: 
 //     Facil: Muestra la suma de billetes
@@ -41,11 +41,13 @@ export default class MoneyGame extends React.Component {
               cant:[0,0,0,0,0,0,0],
               correctasCounter:0,
               reintentos:0,
+              username:this.props.username
           }
           this.handleBilleteSelected = this.handleBilleteSelected.bind(this);
           this.handleNumeroSuperado = this.handleNumeroSuperado.bind(this);
           this.calcularPuntos = this.calcularPuntos.bind(this)
           this.backToInit = this.backToInit.bind(this);
+          this.pushPuntaje = this.pushPuntaje.bind(this);
           
         };
         render(){
@@ -88,23 +90,26 @@ export default class MoneyGame extends React.Component {
                 </div>}
                 {this.state.counter>=maxcount &&
                             <div>
-                                <div className='button'>Tenes {this.calcularPuntos(this.props.dif)} puntos!
+                                {console.log(this.props.username)}
+                                <div className='button'>Tenes {this.calcularPuntos()} puntos!
                                 </div>
+                                
                                 <Button id='Money' onClick={(e)=> this.resetGame()}>Volver a jugar</Button>
 
                             </div>}
         </div>)
 
     }
-    calcularPuntos(props){
+    calcularPuntos(){
+        console.log("user:"+this.props.username)
         let puntos = (this.state.correctasCounter - this.state.reintentos*0.25);
-        if(props==='Facil')
+        if(this.props.dif==='Facil')
             puntos= puntos*100;
-        if(props==='Intermedio')
+        if(this.props.dif==='Intermedio')
             puntos = puntos*200;
-        else if(props ==='Avanzado')
+        else if(this.props.dif ==='Avanzado')
             puntos=puntos*300;
-        
+        this.pushPuntaje(puntos)
         return (puntos);
     }
     resetSuma(){
@@ -142,7 +147,6 @@ export default class MoneyGame extends React.Component {
 
     
     handleSubmitBilletes(props){
-        console.log("listo!")
         if (this.state.numero === this.state.sumaBilletes){
             this.backToInit();
             this.setState({
@@ -177,6 +181,28 @@ export default class MoneyGame extends React.Component {
         }
         
     }
+    pushPuntaje(props){
+
+        let config = {
+          headers: {
+            'Access-Control-Allow-Origin':'http://localhost:3000',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'
+          }
+        }
+        axios.post('http://localhost:5000/qhighscores/add',
+        {
+          username:this.state.username,
+          score: props,
+        },
+        {config})
+            .then(response => {
+                  console.log("Success ========>", response);            
+            })
+            .catch(error => {
+                  console.log("Error ========>", error);
+            })
+      }
     handleNumeroSuperado(){
         alert("superaste el numero! :(");
         this.backToInit();

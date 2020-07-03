@@ -8,6 +8,7 @@ import './App.css';
 import axios from 'axios'
 import Header from './Header'
 import MoneyGame from './components/MoneyGame';
+import PopUp from './components/PopUp'
 
 //import {loginGrupos} from './controller/gameController.js';
 
@@ -50,7 +51,9 @@ class App extends Component {
     this.backToInit= this.backToInit.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePass = this.onChangePass.bind(this);
-    this.currentPage = 'home';
+    this.pushResultados =this.pushResultados.bind(this);
+
+    this.currentPage = 'home'; //Cuenta Billetes
     this.pages = this.generatePages();
     }
   generatePages(){
@@ -131,6 +134,7 @@ class App extends Component {
         <Header />
         <MoneyGame
           dif= {this.state.categorySelected}
+          username={this.state.username}
         />
         </div>
       ),
@@ -148,11 +152,13 @@ class App extends Component {
     </div> ),
       'obtainResults': (
         <div className="App">
-          <Header />         
+          <Header />   
+               
           <center>{this.renderResult()}</center>
-          <center>{this.calculatePoints}</center>
+          <center>{this.calculatePoints}</center> 
+          
           <Button onClick={this.backToInit}>Volver A Jugar!</Button> 
-          <Button onClick={null}>Ver highscores</Button>
+          <PopUp/>
           
           <img src={carpincho} alt="" className="carpi" />
           </div>          
@@ -160,7 +166,29 @@ class App extends Component {
       ),
     }
   }
-   
+  pushResultados(){
+    console.log("LLEGUE")
+    let config = {
+      headers: {
+        'Access-Control-Allow-Origin':'http://localhost:3000',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'
+      }
+    }
+    console.log(this.state.username,this.state.points)
+    axios.post('http://localhost:5000/qhighscores/add',
+    {
+      username: this.state.username,
+      score: this.state.points,
+    },
+    {config})
+        .then(response => {
+              console.log("Success ========>", response);            
+        })
+        .catch(error => {
+              console.log("Error ========>", error);
+        })
+  }
   onChangeUsername(e){
     this.setState({
       username: e.target.value,
@@ -173,8 +201,20 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:5000/qquestions/')
+  getQuestions(props) {
+    console.log('component did mount')
+    let url='http://localhost:5000/qquestions/';
+    if(props===2){
+      url=url+'3'
+    }
+    else if(props===1){
+      url=url+'2'
+    }
+    else{
+      url=url+'1'
+    }
+    console.log('url: '+url)
+       axios.get(url)
       .then(response => {
         const mixedAnswers = response.data.map(question =>
           this.mixQuestions(question.answers))
@@ -234,6 +274,7 @@ handleGameSelected(event) {
 }
 handleCategorySelected(event) {
   this.setState({categorySelected: quizzes[event.currentTarget.id-1].title});
+  this.getQuestions(event.currentTarget.id-1);
   if(this.state.gameSelected === games[0].title){ //quiz
     this.currentPage='quest';
   }else if (this.state.gameSelected === games[1].title) { //Juego 2
@@ -283,8 +324,9 @@ handleCategorySelected(event) {
     }else{
       multiplier =100;
     }
-    return ("tu puntaje es: {0}".format(Number(correctas)*Number(multiplier)));
+    return (Number(correctas)*Number(multiplier));
   }
+  
   obtainResults() {
     const answersQuantity = this.state.answersQuantity;
     return ('Haz logrado responder {0} preguntas correctamente de {1}'.format( answersQuantity["correct"]?answersQuantity["correct"]:0, this.state.quizQuestions.length));
@@ -299,6 +341,7 @@ handleCategorySelected(event) {
 
   renderQuiz() {
     if (this.state.result){
+      this.pushResultados();
       this.currentPage='obtainResults';
     }
 
@@ -369,7 +412,7 @@ handleCategorySelected(event) {
     }
    
     };
-
+    
   render() {
     this.pages = this.generatePages();
     return this.pages[this.currentPage];
