@@ -358,8 +358,8 @@ handleGameSelected(event) {
         axios.post(
           'http://localhost:5000/users/add',
           {
-              username:this.state.username,
-              //password: this.state.password,
+              username: this.state.username,
+              password: this.state.password,
           },
           {config}
           ).then(response => {
