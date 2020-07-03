@@ -135,6 +135,7 @@ class App extends Component {
               }
           </div>
           <img src={carpincho} alt="" className="carpi" />
+          <PopUp className='button2' /> 
           <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
           <h1> </h1>
         </div>

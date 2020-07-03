@@ -82,6 +82,7 @@ export default class MoneyGame extends React.Component {
                         </div>
                         <div>
 
+                       
                         {/* //highscore  */}
                         {this.props.dif==='Facil' &&  
                                 <p className='button'>Llevas ${this.state.sumaBilletes}</p>}    
@@ -93,7 +94,7 @@ export default class MoneyGame extends React.Component {
                                 {console.log(this.props.username)}
                                 <div className='button'>Tenes {this.calcularPuntos()} puntos!
                                 </div>
-                                <PopUp className='button2' />  
+                                 
                                 <Button2 onClick={(e)=> this.resetGame()}>Volver a jugar</Button2>
 
                             </div>}

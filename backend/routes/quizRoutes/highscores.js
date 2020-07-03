@@ -14,11 +14,27 @@ router.route('/add').post((req,res) =>{
     const ownerID = req.body.ownerID || 0;
     const score =req.body.score;
 
-    const newHighscore = new Highscore ({ownerID,score,username});
+    Highscore.findOne({username:username}, function (err,highscore) {
+        if(err){
+            console.log(err)
+            return res.status(500).send();
+        }
+        if (!highscore){
+            const newHighscore = new Highscore ({ownerID,score,username});
+            newHighscore.save()
+            .then(() => res.json('Highscore Added!'))
+            .catch(e => res.status(400).json('Error: '+e));
+            return res.status(404).send();
+        }
+        highscore.score = req.body.score;
 
-    newHighscore.save()
-        .then(() => res.json('Highscore Added!'))
-        .catch(e => res.status(400).json('Error: '+e));
+            highscore.save()
+                .then(()=> res.json('Highscore updated!'))
+                .catch(err => res.status(400).json('Error: '+err));
+
+    });
+
+  
 });
 
 //Devuelve el puntaje del usuario que le pasas por id

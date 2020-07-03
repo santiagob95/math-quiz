@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 export default function SimpleTable(props) {
   const classes = useStyles();
-  const datos = props.datos.sort((a, b) => Number(b.score) - Number(a.score));
+  const datos = props.datos.sort((a, b) => Number(b.score) - Number(a.score)).slice(1,10);
   console.table(datos);
   return (
     <TableContainer className={classes.table} align='center'  component={Paper}>
