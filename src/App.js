@@ -22,7 +22,7 @@ const quizzes = [
 const games =[
   {id: 1, title: 'Quiz'},
   {id: 2, title: 'Cuenta Billetes'},
-  {id: 3, title: 'Juego 3'},
+  {id: 3, title: 'Comparar Numeros'},
 ]
 class App extends Component {
   constructor(props) {
@@ -44,12 +44,15 @@ class App extends Component {
       points: '',
       quizQuestions: '',
     };
-    
+  
+
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
+    this.handleAnswerSelectedComp = this.handleAnswerSelectedComp.bind(this);
     this.handleCategorySelected = this.handleCategorySelected.bind(this);
     this.handleGameSelected = this.handleGameSelected.bind(this);
     this.handleSubmit= this.handleSubmit.bind(this);
     this.backToInit= this.backToInit.bind(this);
+    this.backToHome= this.backToHome.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePass = this.onChangePass.bind(this);
     this.pushResultados =this.pushResultados.bind(this);
@@ -107,6 +110,8 @@ class App extends Component {
                 })
               }
           <img src={carpincho} alt="" className="carpi" />
+          <div><Button2 onClick={this.backToHome}>Salir</Button2> </div>
+          <h1> </h1>
           </div>
       ),
 
@@ -129,6 +134,8 @@ class App extends Component {
               }
           </div>
           <img src={carpincho} alt="" className="carpi" />
+          <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
+          <h1> </h1>
         </div>
       ),
       'Cuenta Billetes':(
@@ -138,14 +145,17 @@ class App extends Component {
           dif= {this.state.categorySelected}
           username={this.state.username}
         />
-        <Button2 onClick={this.backToInit}>Volver</Button2>
+        <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
+          <h1> </h1>
         </div>
       ),
-      'juego3':(
+      'Comparar Numeros':(
         <div className="App" >
           <Header />
-          <p>Llegaste a Juego 3</p>
-          <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
+          {this.renderQuizComp()}
+        <img src={carpincho} alt="" className="carpi" />
+        <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
+          <h1> </h1>
         </div>
       ),
       'quest':(
@@ -153,9 +163,9 @@ class App extends Component {
       <Header />
         {this.renderQuiz()}
         <img src={carpincho} alt="" className="carpi" />
-        <Button2 onClick={this.backToInit}>Volver</Button2>
-      </div>
-     ),
+        <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
+          <h1> </h1>
+    </div> ),
       'obtainResults': (
         <div className="App">
           <Header />   
@@ -209,28 +219,52 @@ class App extends Component {
 
   getQuestions(props) {
     console.log('component did mount')
-    let url='http://localhost:5000/qquestions/';
-    if(props===2){
-      url=url+'3'
+    let url = 'http://localhost:5000/qquestions/';
+    if (props === 2) {
+      url = url + '3'
     }
-    else if(props===1){
-      url=url+'2'
+    else if (props === 1) {
+      url = url + '2'
     }
-    else{
-      url=url+'1'
+    else {
+      url = url + '1'
     }
-    console.log('url: '+url)
-       axios.get(url)
+    console.log('url: ' + url)
+    axios.get(url)
       .then(response => {
         const mixedAnswers = response.data.map(question =>
           this.mixQuestions(question.answers))
         this.setState({
-          quizQuestions:response.data,
-          question:response.data[0].question,
-          answerOptions:mixedAnswers[0]
+          quizQuestions: response.data,
+          question: response.data[0].question,
+          answerOptions: mixedAnswers[0]
         });
       })
 
+  }
+  getQuestionsComp(props) {
+    console.log('component did mount')
+    let url = 'http://localhost:5000/qquestionsComp/';
+    if (props === 2) {
+      url = url + '3'
+    }
+    else if (props === 1) {
+      url = url + '2'
+    }
+    else {
+      url = url + '1'
+    }
+    console.log('url: ' + url)
+    axios.get(url)
+      .then(response => {
+        const mixedAnswers = response.data.map(question =>
+          this.mixQuestions(question.answers))
+        this.setState({
+          quizQuestions: response.data,
+          question: response.data[0].question,
+          answerOptions: mixedAnswers[0]
+        });
+      })
     //   const mixedAnswers = quizQuestions.map(question =>
     //     this.mixQuestions(question.answers)
     //   );
@@ -238,8 +272,8 @@ class App extends Component {
     //     question: quizQuestions[0].question,
     //     answerOptions: mixedAnswers[0]
     //   });
-    }
-   
+  }
+
 
   mixQuestions(array) {
     var currentIndex = array.length,
@@ -257,7 +291,7 @@ class App extends Component {
 
     return array;
   }
-
+  
   handleAnswerSelected(event) {
     this.setUserAnswer(event.currentTarget.value);
     if (this.state.questionNumber < this.state.quizQuestions.length) {
@@ -269,6 +303,16 @@ class App extends Component {
     
   }
 
+  handleAnswerSelectedComp(event) {
+    this.setUserAnswer(event.currentTarget.value);
+    if (this.state.questionNumber < this.state.quizQuestions.length) {
+      setTimeout(() => this.setNextQuestion(), 500);
+    } else {
+      setTimeout(() => this.setResults(this.obtainResults()), 500);
+      setTimeout(() => this.setPoints(this.calculatePoints()),500);
+    }
+    
+  }
 //     handleCategorySelected(event) {
 //     this.setState({ categorySelected: quizzes[event.currentTarget.id-1].title }, () => 
 //     console.log(this.state.categorySelected));
@@ -278,20 +322,25 @@ handleGameSelected(event) {
   this.setState({gameSelected: games[event.currentTarget.id-1].title});
   this.currentPage='levelSelection';
 }
-handleCategorySelected(event) {
-  this.setState({categorySelected: quizzes[event.currentTarget.id-1].title});
-  this.getQuestions(event.currentTarget.id-1);
-  if(this.state.gameSelected === games[0].title){ //quiz
-    this.currentPage='quest';
-  }else if (this.state.gameSelected === games[1].title) { //Juego 2
-    this.currentPage='Cuenta Billetes';
-  }else if (this.state.gameSelected === games[2].title) { //Juego 3
-    this.currentPage='juego3';
+  handleCategorySelected(event) {
+    this.setState({ categorySelected: quizzes[event.currentTarget.id - 1].title });
+    if (this.state.gameSelected === games[0].title) {
+      this.getQuestions(event.currentTarget.id - 1)
+    } else if (this.state.gameSelected === games[2].title) {
+      this.getQuestionsComp(event.currentTarget.id - 1);
+    }
+
+    if (this.state.gameSelected === games[0].title) { //quiz
+      this.currentPage = 'quest';
+    } else if (this.state.gameSelected === games[1].title) { //Juego 2
+      this.currentPage = 'Cuenta Billetes';
+    } else if (this.state.gameSelected === games[2].title) { //Juego 3
+      this.currentPage = 'Comparar Numeros';
+    }
+    else {
+      this.currentPage = '';
+    }
   }
-  else {
-    this.currentPage ='';
-  }
-}
 
 
   setUserAnswer(answer) {
@@ -365,6 +414,27 @@ handleCategorySelected(event) {
     )
   }
 
+  renderQuizComp() {
+    if (this.state.result){
+      this.pushResultados();
+      this.currentPage='obtainResults';
+    }
+
+    return (
+      <div className="App">
+      <Quiz
+        answer={this.state.answer}
+        answerOptions={this.state.answerOptions}
+        questionNumber={this.state.questionNumber}
+        question={this.state.question}
+        questionTotal={this.state.quizQuestions.length}
+        onAnswerSelected={this.handleAnswerSelectedComp}
+      />
+      </div>
+    )
+  }
+
+
   renderResult() {
     return <Result quizResult={this.state.result}  quizPoints={this.state.points}/>;
   }
@@ -381,10 +451,33 @@ handleCategorySelected(event) {
       answersQuantity: {},
       result: '',
       categorySelected:''});
-      
+   
       /*,      username:''*/
   }
-  
+
+  backToHome(event) {
+    this.currentPage = 'home';
+    event.preventDefault();
+    this.setState({
+      counter: 0,
+      questionId: 1,
+      question: ' ',
+      answerOptions: [],
+      answer: '',
+      answersQuantity: {},
+      gameSelected: "Ninguno",
+
+      result: '',
+      categorySelected: '',
+      nameUser: ''
+    });
+
+
+
+  }
+
+
+
   handleSubmit(event){
     event.preventDefault();
     this.setState({username: this.state.username});
