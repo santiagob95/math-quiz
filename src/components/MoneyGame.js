@@ -55,7 +55,7 @@ export default class MoneyGame extends React.Component {
             return (
                 <div className="Contenedor">
                 {this.state.counter<maxcount &&
-                <div>
+                <div classname='Contenedor'>
                     <div className='button' id='titulo'>
                         <p>Queremos comprar una bolsa de caramelos, pero cuesta ${this.state.numero}
                             ¿Cuántos billetes crees que necesitaremos?</p>
