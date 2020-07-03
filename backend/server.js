@@ -32,23 +32,16 @@ const usersRouter = require('./routes/users');
 
 const quizQuestionsRouter = require('./routes/quizRoutes/questions');
 const quizHighscoreRouter = require('./routes/quizRoutes/highscores');
+const quizQuestionsCompRouter = require('./routes/quizCompRoutes/questionsComp');
 
-const addsubstractQuestionsRouter = require ('./routes/addsubstractRoutes/addsubstractQuestions');
-const addsubstractHighscores = require ('./routes/addsubstractRoutes/addsubstractHighscores');
-
-const comparingnumberQuestionsRouter = require('./routes/comparingnumberRoutes/comparingnumberQuestions');
-const comparingnumberHighscores = require('./routes/comparingnumberRoutes/comparingnumberHighscores');
 
 app.use('/users',usersRouter);
 
+app.use('/qquestionsComp',quizQuestionsCompRouter)
 app.use('/qquestions',quizQuestionsRouter);
 app.use('/qhighscores',quizHighscoreRouter);
 
-app.use('/addsubstractquestions',addsubstractQuestionsRouter);
-app.use('/addsubstracthighscores',addsubstractHighscores);
 
-app.use('/comparingnumberquestions',comparingnumberQuestionsRouter);
-app.use('/comparingnumberhighscores',comparingnumberHighscores);
 
 app.listen(port, () => {
     console.log (`Server is running on port : ${port}`);

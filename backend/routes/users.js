@@ -8,17 +8,38 @@ router.route('/').get((req,res)=>{
         .catch (e => res.status(400).json('Error: ',e));
 });
 
-//Agrega un usuario con sus highscores
-router.route('/add').post((req,res) =>{
+router.route('/login').post(function(req,res){
+    var username = req.body.username;
+    var password = req.body.password;
+    
+    User.findOne({username:username, password:password}, function (err,user) {
+        if(err){
+            console.log(err)
+            return res.status(500).send();
+        }
+        if (!user){
+            return res.status(404).send();
+        }
+
+        return res.status(200).send()        
+    })
+})
+router.route('/registrar').post((req,res) =>{
     const username = req.body.username;
     const password = req.body.password;
+
+    var newuser = new User();
+    newuser.username = username;
+    newuser.password = password;
+     newuser.save(function(err,saveduser){
+         if(err){
+             console.log(err);
+             return res.status(500).send()
+         }
+
+         return res.status(200).send();
+     })  
     
-    const newUser = new User ({username,password});
-    newUser.save()
-        .then(() => {
-            res.json('User Added!');
-        })
-        .catch(e => res.status(400).json('Error: '+e));
 });
 
 //Trae un usuario que le pido

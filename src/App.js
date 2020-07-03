@@ -4,6 +4,7 @@ import Quiz from './components/Quiz';
 import Result from './components/Result';
 import carpincho from './svg/carpinchoNerd.png'
 import Button from './components/Button';
+import Button2 from './components/Button2';
 import './App.css';
 import axios from 'axios'
 import Header from './Header'
@@ -81,7 +82,8 @@ class App extends Component {
                     onChange={this.onChangePass}
                      />
             </label>
-            <Button onClick={this.handleSubmit} ontouchstart={this.handleSubmit}> Ingresar</Button>
+            <Button onClick={this.handleSubmit}> Ingresar</Button>
+            <Button onClick={this.handleSubmit}> Registrar</Button>
           </form>
          
           <img src={carpincho} alt="" className="carpi" />
@@ -136,12 +138,14 @@ class App extends Component {
           dif= {this.state.categorySelected}
           username={this.state.username}
         />
+        <Button2 onClick={this.backToInit}>Volver</Button2>
         </div>
       ),
       'juego3':(
         <div className="App" >
           <Header />
           <p>Llegaste a Juego 3</p>
+          <div><Button2 onClick={this.backToInit}>Volver</Button2> </div>
         </div>
       ),
       'quest':(
@@ -149,7 +153,9 @@ class App extends Component {
       <Header />
         {this.renderQuiz()}
         <img src={carpincho} alt="" className="carpi" />
-    </div> ),
+        <Button2 onClick={this.backToInit}>Volver</Button2>
+      </div>
+     ),
       'obtainResults': (
         <div className="App">
           <Header />   
@@ -365,7 +371,7 @@ handleCategorySelected(event) {
 
 
   backToInit(event){
-    this.currentPage='levelSelection';
+    this.currentPage='gameSelection';
     event.preventDefault();
     this.setState({counter: 0,
       questionNumber: 1,
@@ -375,14 +381,17 @@ handleCategorySelected(event) {
       answersQuantity: {},
       result: '',
       categorySelected:''});
-    this.componentDidMount();
+      
       /*,      username:''*/
   }
+  
   handleSubmit(event){
     event.preventDefault();
     this.setState({username: this.state.username});
     this.setState({pass: this.state.pass});
-
+    let url='http://localhost:5000/users/' + event.target.aux;
+    console.log(event)
+    console.log(url);
     let config = {
       headers: {
         'Access-Control-Allow-Origin':'http://localhost:3000',
@@ -394,8 +403,7 @@ handleCategorySelected(event) {
 
         console.log(this.state.username);
         console.log(this.state.pass);
-        axios.post(
-          'http://localhost:5000/users/add',
+        axios.post(url,
           {
               username:this.state.username,
               password:this.state.pass

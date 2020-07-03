@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Button2 from '../components/Button2'
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -47,7 +48,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs() {
+export default function  CustomizedDialogs() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -58,10 +59,10 @@ export default function CustomizedDialogs() {
   };
 
   return (
-    <div className='button' id='test'> 
-      <Button className='button' id='uno' onClick={handleClickOpen}>
+    <div > 
+      <Button2 onClick={handleClickOpen}>
         Ver Highscores
-      </Button>
+      </Button2>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Los Mejores de los Mejores

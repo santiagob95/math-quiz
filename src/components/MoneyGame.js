@@ -1,5 +1,6 @@
 import React from 'react'
-import Button from './Button'   
+import Button from './Button' 
+import Button2 from './Button2'  
 
 import './MoneyGame.css'
 import axios from 'axios'
@@ -79,10 +80,10 @@ export default class MoneyGame extends React.Component {
                             <Button id='Money' onClick={(e)=> this.handleSubmitBilletes(this.props)}> Listo!</Button>
                             <Button id='Money' onClick={(e)=>this.resetSuma()}>Borrar</Button>
                         </div>
-                        <div id='uno'>
+                        <div>
 
                         {/* //highscore  */}
-                        <PopUp className='button' id='Money'/>  
+                        <PopUp className='button2' />  
                         {this.props.dif==='Facil' &&  
                                 <p className='button' id='Money'>Llevas ${this.state.sumaBilletes}</p>}    
                         </div>
@@ -94,7 +95,8 @@ export default class MoneyGame extends React.Component {
                                 <div className='button'>Tenes {this.calcularPuntos()} puntos!
                                 </div>
                                 
-                                <Button id='Money' onClick={(e)=> this.resetGame()}>Volver a jugar</Button>
+                                <Button2 onClick={(e)=> this.resetGame()}>Volver a jugar</Button2>
+                                <Button2 onClick={this.backToInit}>Volver</Button2>
 
                             </div>}
         </div>)

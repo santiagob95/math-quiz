@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let Question = require ('../../comparingnumberModel/questions.model');
+let Question = require ('../../quizCompModel/questionsComp.model');
 
 
 // quizas hay que sacar esta ruta, nadie deberia poder agregar preguntas desde la pagina, no?
