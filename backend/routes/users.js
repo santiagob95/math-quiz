@@ -11,8 +11,9 @@ router.route('/').get((req,res)=>{
 //Agrega un usuario con sus highscores
 router.route('/add').post((req,res) =>{
     const username = req.body.username;
+    const password = req.body.password;
     
-    const newUser = new User ({username});
+    const newUser = new User ({username,password});
     newUser.save()
         .then(() => {
             res.json('User Added!');

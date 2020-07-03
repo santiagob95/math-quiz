@@ -41,26 +41,25 @@ const DialogContent = withStyles((theme) => ({
 
 const DialogActions = withStyles((theme) => ({
   root: {
+    
     margin: 0,
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
 
 export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <div>
-      <Button className='button' class='button' onClick={handleClickOpen}>
-        Ver Highscores
-      </Button>
+
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Los Mejores de los Mejores

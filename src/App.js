@@ -17,7 +17,7 @@ const quizzes = [
 
 const games =[
   {id: 1, title: 'Quiz'},
-  {id: 2, title: 'Juego 2'},
+  {id: 2, title: 'Cuenta Billetes'},
   {id: 3, title: 'Juego 3'},
 ]
 class App extends Component {
@@ -48,15 +48,13 @@ class App extends Component {
     this.backToInit= this.backToInit.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePass = this.onChangePass.bind(this);
-
     this.currentPage = 'home';
     this.pages = this.generatePages();
     }
-  
   generatePages(){
      return {
       'home': (
-        <div className="App">
+        <div className="App" type='hidden'  >
          <Header />
           <h1 className="titleWithEffect"> ¡Empecemos a Jugar!</h1>
           <form onSubmit={this.handleSubmit}  noValidate>
@@ -70,7 +68,7 @@ class App extends Component {
                      />
             </label>
             <label>
-            <input  type="text" 
+            <input  type="password" 
                     required 
                     placeholder="Contraseña"
                     name='pass' 
@@ -78,7 +76,7 @@ class App extends Component {
                     onChange={this.onChangePass}
                      />
             </label>
-            <Button onClick={this.handleSubmit} > Ingresar</Button>
+            <Button onClick={this.handleSubmit} ontouchstart={this.handleSubmit}> Ingresar</Button>
           </form>
          
           <img src={carpincho} alt="" className="carpi" />
@@ -126,7 +124,7 @@ class App extends Component {
           <img src={carpincho} alt="" className="carpi" />
         </div>
       ),
-      'juego2':(
+      'Cuenta Billetes':(
         <div className="App">
         <Header />
         <MoneyGame
@@ -152,13 +150,15 @@ class App extends Component {
           <center>{this.renderResult()}</center>
           <center>{this.calculatePoints}</center>
           <Button onClick={this.backToInit}>Volver A Jugar!</Button> 
+          <Button onClick={null}>Ver highscores</Button>
+          
           <img src={carpincho} alt="" className="carpi" />
           </div>          
           
       ),
     }
   }
-
+   
   onChangeUsername(e){
     this.setState({
       username: e.target.value,
@@ -170,7 +170,6 @@ class App extends Component {
       pass: e.target.value,
     });
   }
-
 
   componentDidMount() {
     axios.get('http://localhost:5000/qquestions/')
@@ -231,19 +230,19 @@ handleGameSelected(event) {
   this.setState({gameSelected: games[event.currentTarget.id-1].title});
   this.currentPage='levelSelection';
 }
-  handleCategorySelected(event) {
-    this.setState({categorySelected: quizzes[event.currentTarget.id-1].title});
-    if(this.state.gameSelected === games[0].title){ //quiz
-      this.currentPage='quest';
-    }else if (this.state.gameSelected === games[1].title) { //Juego 2
-      this.currentPage='juego2';
-    }else if (this.state.gameSelected === games[2].title) { //Juego 3
-      this.currentPage='juego3';
-    }
-    else {
-      this.currentPage ='';
-    }
+handleCategorySelected(event) {
+  this.setState({categorySelected: quizzes[event.currentTarget.id-1].title});
+  if(this.state.gameSelected === games[0].title){ //quiz
+    this.currentPage='quest';
+  }else if (this.state.gameSelected === games[1].title) { //Juego 2
+    this.currentPage='Cuenta Billetes';
+  }else if (this.state.gameSelected === games[2].title) { //Juego 3
+    this.currentPage='juego3';
   }
+  else {
+    this.currentPage ='';
+  }
+}
 
 
   setUserAnswer(answer) {
@@ -346,28 +345,25 @@ handleGameSelected(event) {
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'
       }
     }
-
-    //el prevent default no funca, no se porque. Pero con este if evitamos que avance, pero queda el boton apretado, bug?
      if(this.state.username !==''){
 
         console.log(this.state.username);
         console.log(this.state.pass);
-
         axios.post(
           'http://localhost:5000/users/add',
           {
               username:this.state.username,
+              password:this.state.pass
               //password: this.state.password,
           },
           {config}
           ).then(response => {
               console.log("Success ========>", response);
-              this.currentPage='gameSelection'
+              this.currentPage='gameSelection'              
           })
           .catch(error => {
               console.log("Error ========>", error);
-          }
-      )
+          })
     }
    //BUG: Avanza aunque le de error de usuario ya existente-----------------------------------------------
   //this.currentPage='gameSelection';

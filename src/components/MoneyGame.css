@@ -1,26 +1,58 @@
+* {
+    max-width: 100%;
+}
+.BotonesYHighscore{
+    max-width: 80%;
+    size: auto;
+    display: flex;
 
+}
 .botonHolder{
+    max-width: 50%;
+    min-width: auto;
     display: inline-grid;
     text-align: center;
     grid-template-columns: repeat(3, 10fr);
-    grid-gap: 5px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(auto, auto);
     margin-left: 5%;
-    float: left;    
+ 
 }
+
 #uno{
-    position: relative;
-    left:5%;
+    max-width: 80%;
+    position: inherit;
+    margin-left: 10%;
+    align-content: center;
+    display: grid;
+    width: 40%;
+    text-align: center;
 }
 #Money{
-    width: 150px;
-    max-width: 100%;
+    display: block;
+    padding: 3px;
+    background-color: #F2B33D;
+    margin: 0.75rem; 
+    padding: 0.7rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.3rem;
+    border: none;
+    transition: padding 0.3s;
+    width: 100%;
+    margin-left: 40%;
+    margin-right: 30%;
+    cursor: pointer;
+  
 
 }
+
 #block1,#block2{
+    max-width: 100%;
     display: inline-block;
 }
 #titulo{
+    max-width: 100%;
     width: 60%;
     margin-left:5%;
     margin-right: 5%;

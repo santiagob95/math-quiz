@@ -77,10 +77,12 @@ export default class MoneyGame extends React.Component {
                             <Button id='Money' onClick={(e)=> this.handleSubmitBilletes(this.props)}> Listo!</Button>
                             <Button id='Money' onClick={(e)=>this.resetSuma()}>Borrar</Button>
                         </div>
-                        <div align='center'>
-                        <PopUp id='uno'/>
-                        {this.props.dif==='Facil' &&
-                        <div className='button'>LLevas ${this.state.sumaBilletes}</div>}    
+                        <div id='uno'>
+
+                        {/* //highscore  */}
+                        <PopUp className='button' id='Money'/>  
+                        {this.props.dif==='Facil' &&  
+                                <p className='button' id='Money'>Llevas ${this.state.sumaBilletes}</p>}    
                         </div>
                     </div>
                 </div>}
@@ -95,11 +97,13 @@ export default class MoneyGame extends React.Component {
 
     }
     calcularPuntos(props){
-        let puntos = (this.state.correctasCounter - this.state.reintentos*0.25)*100;
+        let puntos = (this.state.correctasCounter - this.state.reintentos*0.25);
         if(props==='Facil')
-            puntos= puntos*0.80;
+            puntos= puntos*100;
+        if(props==='Intermedio')
+            puntos = puntos*200;
         else if(props ==='Avanzado')
-            puntos=puntos*1.30;
+            puntos=puntos*300;
         
         return (puntos);
     }

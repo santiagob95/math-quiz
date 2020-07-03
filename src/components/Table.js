@@ -33,7 +33,7 @@ export default function SimpleTable(props) {
   const datos = props.datos.sort((a, b) => Number(b.score) - Number(a.score));
   console.table(datos);
   return (
-    <TableContainer className={classes.table} align='center' id='button' component={Paper}>
+    <TableContainer className={classes.table} align='center'  component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
