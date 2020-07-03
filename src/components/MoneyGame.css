@@ -4,8 +4,16 @@
 .BotonesYHighscore{
     max-width: 80%;
     size: auto;
-    display: flex;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 
+}
+.Contenedor{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 }
 .botonHolder{
     max-width: 50%;
@@ -80,7 +88,8 @@
 #titulo{
     max-width: 100%;
     width: 60%;
-    margin-left:5%;
-    margin-right: 5%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
     
 }

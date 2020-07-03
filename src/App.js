@@ -51,13 +51,14 @@ class App extends Component {
     this.handleCategorySelected = this.handleCategorySelected.bind(this);
     this.handleGameSelected = this.handleGameSelected.bind(this);
     this.handleSubmit= this.handleSubmit.bind(this);
+    this.handleSubmitRegistro=this.handleSubmitRegistro.bind(this);
     this.backToInit= this.backToInit.bind(this);
     this.backToHome= this.backToHome.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePass = this.onChangePass.bind(this);
     this.pushResultados =this.pushResultados.bind(this);
 
-    this.currentPage = 'home'; //Cuenta Billetes
+    this.currentPage = 'Cuenta Billetes'; //Cuenta Billetes
     this.pages = this.generatePages();
     }
   generatePages(){
@@ -66,7 +67,7 @@ class App extends Component {
         <div className="App" type='hidden'  >
          <Header />
           <h1 className="titleWithEffect"> ¡Empecemos a Jugar!</h1>
-          <form onSubmit={this.handleSubmit}  noValidate>
+          <form>
             <label>
             <input  type="text" 
                     required 
@@ -86,7 +87,7 @@ class App extends Component {
                      />
             </label>
             <Button onClick={this.handleSubmit}> Ingresar</Button>
-            <Button onClick={this.handleSubmit}> Registrar</Button>
+            <Button onClick={this.handleSubmitRegistro}> Registrarse</Button>
           </form>
          
           <img src={carpincho} alt="" className="carpi" />
@@ -182,6 +183,7 @@ class App extends Component {
       ),
     }
   }
+  
   pushResultados(){
     console.log("LLEGUE")
     let config = {
@@ -322,7 +324,7 @@ handleGameSelected(event) {
   this.setState({gameSelected: games[event.currentTarget.id-1].title});
   this.currentPage='levelSelection';
 }
-  handleCategorySelected(event) {
+handleCategorySelected(event) {
     this.setState({ categorySelected: quizzes[event.currentTarget.id - 1].title });
     if (this.state.gameSelected === games[0].title) {
       this.getQuestions(event.currentTarget.id - 1)
@@ -442,7 +444,7 @@ handleGameSelected(event) {
 
   backToInit(event){
     this.currentPage='gameSelection';
-    event.preventDefault();
+    // event.preventDefault();
     this.setState({counter: 0,
       questionNumber: 1,
       question: '',
@@ -476,15 +478,9 @@ handleGameSelected(event) {
 
   }
 
-
-
-  handleSubmit(event){
+  handleSubmitRegistro(event){
     event.preventDefault();
-    this.setState({username: this.state.username});
-    this.setState({pass: this.state.pass});
-    let url='http://localhost:5000/users/' + event.target.aux;
-    console.log(event)
-    console.log(url);
+    let url='http://localhost:5000/users/registrar'
     let config = {
       headers: {
         'Access-Control-Allow-Origin':'http://localhost:3000',
@@ -505,7 +501,48 @@ handleGameSelected(event) {
           {config}
           ).then(response => {
               console.log("Success ========>", response);
-              this.currentPage='gameSelection'              
+              this.setState({username: this.state.username});
+              this.setState({pass: this.state.pass});
+              alert('Te registraste correctamente, ahora podes iniciar tu sesion')
+              // this.currentPage='gameSelection'    
+                    
+          })
+          .catch(error => {
+            alert("ese usuario ya esta tomado :( proba con otro")
+              console.log("Error ========>", error);
+          })
+    }
+   
+    };
+    //login
+  handleSubmit(event){
+    event.preventDefault();
+    let url='http://localhost:5000/users/login';
+    let config = {
+      headers: {
+        'Access-Control-Allow-Origin':'http://localhost:3000',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE'
+      }
+    }
+     if(this.state.username !==''){
+
+        console.log(this.state.username);
+        //console.log(this.state.pass);
+        axios.post(url,
+          {
+              username:this.state.username,
+              password:this.state.pass
+              //password: this.state.password,
+          },
+          {config}
+          ).then(response => {
+            this.setState({username: this.state.username});
+            this.setState({pass: this.state.pass});
+           alert("inicio de sesion correcto. ¡A JUGAR!")
+           this.backToInit()
+            
+            console.log(this.currentPage)              
           })
           .catch(error => {
               console.log("Error ========>", error);
@@ -513,8 +550,7 @@ handleGameSelected(event) {
     }
    
     };
-    
-  render() {
+ render() {
     this.pages = this.generatePages();
     return this.pages[this.currentPage];
   }
