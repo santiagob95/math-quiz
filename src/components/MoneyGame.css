@@ -4,39 +4,33 @@
 .BotonesYHighscore{
     max-width: 80%;
     size: auto;
-    display: inline;
-    justify-content: center;
-    /* margin-left: 0;
-    margin-right: 0; */
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 
 }
 .Contenedor{
     text-align: center;
     display: block;
-    justify-content: center;
-    margin: auto;
-    align-items: center;
-    /* margin-left: 0;
-    margin-right: 0 */
+    margin-left: auto;
+    margin-right: auto
 }
 .botonHolder{
-    width:100%; 
-    margin-top: 10px;
-    display: grid;
-    justify-content: center;
+    max-width: 50%;
+    min-width: auto;
+    display: inline-grid;
     text-align: center;
-    grid-template-columns: 20% 20% 20%;
-    grid-template-rows: 30% 30% 30%;
+    grid-template-columns: repeat(3, 10fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(auto, auto);
-    
-    /* margin-left: 0 */
+    margin-left: 5%;
+ 
 }
 
 #uno{
     max-width: 80%;
     position: inherit;
-    /* margin-left: 10%; */
+    margin-left: 10%;
     align-content: center;
     display: grid;
     width: 40%;
@@ -44,20 +38,20 @@
 }
 #test{
     display: block;
-    /* padding: 3px; */
+    padding: 3px;
     font-family: sans-serif !important;
     color: white!important;
     background-color: #F2B33D;
-    /* margin: 0.75rem;  */
-    /* padding: 0.7rem; */
+    margin: 0.75rem; 
+    padding: 0.7rem;
     border-radius: 5px;
     font-size: 1.3rem;
     border: none;
     transition: padding 0.3s;
     width: 20%;
     max-width: 20%;
-    /* margin-left: 40%;
-    margin-right: 30%; */
+    margin-left: 40%;
+    margin-right: 30%;
     cursor: pointer;
     box-sizing: border-box;
    
@@ -70,17 +64,18 @@
 }
 #Money{
     display: block;
-    /* padding: 3px; */
+    padding: 3px;
     background-color: #F2B33D;
-    /* margin: 0.75rem;  */
-    /* padding: 0.7rem; */
+    margin: 0.75rem; 
+    padding: 0.7rem;
     border-radius: 5px;
     color: white;
     font-size: 1.3rem;
     border: none;
-    /* transition: padding 0.3s; */
-    /* margin-left: 40%;
-    margin-right: 30%; */
+    transition: padding 0.3s;
+    width: 100%;
+    margin-left: 40%;
+    margin-right: 30%;
     cursor: pointer;
   
 
@@ -91,14 +86,10 @@
     display: inline-block;
 }
 #titulo{
-    display: grid;
     max-width: 100%;
     width: 60%;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    /* margin-left: auto;
-    margin-right: auto */
+    display: block;
+    margin-left: auto;
+    margin-right: auto
     
 }

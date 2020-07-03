@@ -29,7 +29,7 @@
   background: linear-gradient(180deg, rgba(89,34,3,1) 0%, rgba(217,43,43,1) 100%); 
   /* background: rgb(242,179,61);
   background: linear-gradient(180deg, rgba(242,179,61,1) 0%, rgba(242,203,5,1) 35%, rgba(234,220,190,1) 100%);   */
-  /* padding: 20px; */
+  padding: 20px;
   color: white;
   text-align: center;
 
@@ -48,41 +48,22 @@
     transform: rotate(360deg);
   }
 }
-.container-botones{
-  display:flex;
-  flex-direction:column;
-  align-content: center;
-  text-align: center;
-  margin: auto;
-  align-items: center;
-  justify-content: center;
-}
+
 .button {
   display: block;
   padding: 3px;
   background-color: #F2B33D;
- 
+  margin: 0.75rem; 
   padding: 0.7rem;
   border-radius: 5px;
   color: white;
   font-size: 1.3rem;
   border: none;
+  transition: padding 0.3s;
+  width: 20%;
+  margin-left: 40%;
+  margin-right: 30%;
   cursor: pointer;
-  align-content: center;
-}
-.button#principal{
-  width:20%;
-  margin-top: 10px;
-  
-  
-}
-
-
-button:focus,
-button:hover {
-  background-color: #BF4904;
-  color: white;
-  outline: none;
 }
 .button2 {
   display: block;
@@ -98,6 +79,29 @@ button:hover {
   transition: padding 0.3s;
   width: 15%;
 
+}
+
+.button2 {
+  display: block;
+  margin: 0px auto;
+  padding: 10px;
+  background-color: #F2A0AF;
+
+  padding: 0.7rem;
+  border-radius: 5px;
+  color: black;
+  font-size: 1.3rem;
+  border: none;
+  transition: padding 0.3s;
+  width: 15%;
+
+}
+
+button:focus,
+button:hover {
+  background-color: #BF4904;
+  color: white;
+  outline: none;
 }
 
 h1 {

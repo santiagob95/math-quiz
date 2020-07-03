@@ -444,7 +444,7 @@ handleCategorySelected(event) {
 
   backToInit(event){
     this.currentPage='gameSelection';
-    event.preventDefault();
+    // event.preventDefault();
     this.setState({counter: 0,
       questionNumber: 1,
       question: '',
@@ -550,8 +550,7 @@ handleCategorySelected(event) {
     }
    
     };
-    
-  render() {
+ render() {
     this.pages = this.generatePages();
     return this.pages[this.currentPage];
   }
