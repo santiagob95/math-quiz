@@ -24,7 +24,7 @@ const billetes =[
 ]
 const max =100, min =0;
 
-const maxcount =1;
+const maxcount =3;
 
 // Dificultades: 
 //     Facil: Muestra la suma de billetes

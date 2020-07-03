@@ -540,12 +540,12 @@ handleCategorySelected(event) {
           ).then(response => {
             this.setState({username: this.state.username});
             this.setState({pass: this.state.pass});
-           alert("inicio de sesion correcto. ¡A JUGAR!")
            this.backToInit()
             
             console.log(this.currentPage)              
           })
           .catch(error => {
+              alert("Clave incorrecta o el usuario no existe")
               console.log("Error ========>", error);
           })
     }
