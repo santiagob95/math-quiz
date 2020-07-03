@@ -9,6 +9,8 @@ import axios from 'axios'
 import Header from './Header'
 import MoneyGame from './components/MoneyGame';
 
+//import {loginGrupos} from './controller/gameController.js';
+
 const quizzes = [
   { id: 1, title: 'Facil' },
   { id: 2, title: 'Intermedio' },
@@ -365,8 +367,7 @@ handleCategorySelected(event) {
               console.log("Error ========>", error);
           })
     }
-   //BUG: Avanza aunque le de error de usuario ya existente-----------------------------------------------
-  //this.currentPage='gameSelection';
+   
     };
 
   render() {
