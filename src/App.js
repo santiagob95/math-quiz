@@ -20,7 +20,7 @@ const quizzes = [
 ];
 
 const games =[
-  {id: 1, title: 'Quiz'},
+  {id: 1, title: 'Preguntas'},
   {id: 2, title: 'Cuenta Billetes'},
   {id: 3, title: 'Comparar Numeros'},
 ]
