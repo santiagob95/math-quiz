@@ -1,11 +1,7 @@
 {
-  "name": "hh",
+  "name": "MathQuiz",
   "version": "0.1.0",
   "private": true,
-  "engines":{
-    "node":"6.14.5",
-    "npm":"12.16.1"
-  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -25,8 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
