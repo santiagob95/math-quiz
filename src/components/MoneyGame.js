@@ -12,6 +12,7 @@ import veinte from '../svg/veinte.png'
 import cincuenta from '../svg/cincuenta.png'
 import cien from '../svg/cien.png'
 
+import PopUp from './PopUp'
 const billetes =[
     {id:0,value:1, img:uno},
     {id:1,value:2, img:dos},
